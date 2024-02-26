@@ -1,0 +1,2 @@
+# MySql-Practices
+Self improvement
