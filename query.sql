@@ -444,5 +444,63 @@ alter table students drop index  name_cgpa_indx;
 drop index name_cgpa_indx on students; 	-- both are same
 
 
--- subquery
+	-- subquery
+select * from transaction;
+
+select transaction_id,amount,
+	round((select avg(amount) from transaction),3) as Avg_Amount
+from transaction;  -- 3 decimal places
+
+select transaction_id,amount,transaction_date 
+from transaction
+where amount >(select avg(amount) from transaction);
+
+select count(*) as Transaction_Count
+from (
+select transaction_id,amount,transaction_date 
+from transaction
+where amount > (select avg(amount) from transaction)
+) as subqueryResult;
+
+-- distint (use for no repeating)
+
+select * from customer;
+select customer_id,name from customer
+where customer_id in
+(select customer_id from transaction
+where customer_id is not null);
+
+
+	-- group by
+insert  into transaction (transaction_id,amount,transaction_date)
+values(7,500,"2024-02-26"),
+(8,500,"2024-02-27"),
+(9,500,"2024-02-26"),
+(10,500,"2024-02-28"),
+(11,500,"2024-02-25");
+
+select * from transaction;
+
+select sum(amount) as "Per day Transaction",transaction_date 
+from transaction
+group by transaction_date;
+
+select count(amount) as "Count transaction",customer_id
+from transaction
+group by customer_id;
+
+select count(amount) as "Count transaction",customer_id
+from transaction
+group by customer_id
+having count(amount)> 1 and customer_id is not null;
+
+
+
+	-- roll up
+
+
+
+
+
+
 
