@@ -402,8 +402,47 @@ from customer as c
 natural join 
 transaction as t;
 
--- views
+	-- views (data auto up to date from the base table to the view table)
+Create view Student as
+select first_namstudente,last_name
+from students;  -- creating a view
+
+select * from student; -- view name 'student'
+
+select * from student 
+order by first_name desc;
 
 
+drop view student;
 
+create view student_info as
+select first_name,last_name,concat(first_name," ",last_name) as "full Name"
+from students;
+
+select * from student_info;
+select * from students;
+insert into students values (5,"Md. Abir","Hasan",3.66,"mbabirhasan@gmail.com","2020-01-28");
+select * from student_info; 	-- auto updated
+
+	-- index (Btree data structure)
+    -- mysql searches sequentially through a column
+    -- UPDATE take more time ,SELECT take less time
+show index from students;
+
+create index first_name_indx
+on students(first_name); -- for'first_name' column,if we have  large dataset then searching will be fast
+
+show index from students;
+drop index first_name_indx on students;
+
+create index name_cgpa_indx
+on students(first_name,last_name,cgpa); 
+
+show indexes from students;  
+
+alter table students drop index  name_cgpa_indx;
+drop index name_cgpa_indx on students; 	-- both are same
+
+
+-- subquery
 
